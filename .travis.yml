@@ -1,0 +1,15 @@
+language: python
+python:
+- '3.8'
+install:
+- pip install -r requirements-travis.txt
+script:
+- python manage.py test login/tests --keepdb
+deploy:
+  provider: heroku
+  api_key:
+    secure: k1QDfhV0QywNkUBkCPofDLfOMKOAXo2BiSMpmrWtxWUYKIBWR1dUVh1IZKfRus38QQb9bpPaRMZ7FUaYWh/jbK1eA/W60HbkynBHUw8A5FIGqILm/UtFQda7/DwL+PsYQF6rqSjuzohEEehwFxbBlQfRjSRj+4ywCk7yJyZ8bQSZ0bVq2L7OZdssiTcjqyROrQOiavFxtMLsMWQ15aXdUZyepl4YrRAuXfL76zxJ4KIxeb/fIosT259fC/6mFT5YN9+6O2lSrG3TWAP66CkB3gU2FeHrHC/EG3no2+2jsr9rwjxfhKmjnpkwlztxg0I9vlz5Df13kDoNRySose16/o7HJvkoDXQSGqrg5ewxPY6SDI8Ucgl+aesqdR5w/TJxUf2IwiHbIbh6QuM9oThRAZyve4cOXFgljRhxxIQ/ItH3xKRsfJEGOarjfnN9I/59V+ttwjsI94opNqYqP0EUfIO3Kh3wumzmnMnSo1+MiiHUzGf3Cj1JDc4FE3Dk4/4JKRJ7X7eEkE8WD4PK9tZg0ZFJwVEbHb2RTiB1M/9LcOtltEW9gSq1KH4j+rbYLo57PyeP8YbSJwQoCXWbyZgYtTG763kNr7uOJiWheTeZ8MsGZiq8DEq+L5z52YPT+Mn1vgUQ36X/VqdBYTGPEBMl6ptKLKCPa9+b7s+QGbbr+Xk=
+  app: a13site
+  on:
+    repo: uva-cs3240-s21/project-a-13
+    branch: main

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+{% extends "login/header.html" %}
+{% load static %}
+
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Submit a Reminder{% endblock %}</title>
+</head>
+<body>
+{% block content %}
+<div class="card ">
+  <div class="card-body mx-auto" style="width: 50rem;">
+    <form action="" method="POST">
+      {% csrf_token %}           
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Title:</span>
+        {{form.title}}
+      </div>
+
+      <strong>What is the time now?</strong>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="datetime">Current Time:</span>
+        <input type="datetime-local" name="timestamp" step="1">
+        {{form.time_now}}
+      </div>
+
+      <strong>When would you like to be reminded?</strong> <br> Please enter an amount of time from the current time at which you would like to be reminded: 
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Time (days):</span>
+        {{form.time_days}}
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Time (hours):</span>
+        {{form.time_hours}}
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Time (minutes):</span>
+        {{form.time_minutes}}
+      </div>
+
+      <div class="input-group">
+        <span class="input-group-text">Description:</span>
+        {{form.description}}
+      </div>
+
+      <div class="d-grid" style="margin-top: 15px;">
+        <button type="submit" value="submit" class="btn btn-info btn-block" type="button" name="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+</body>
+</html>

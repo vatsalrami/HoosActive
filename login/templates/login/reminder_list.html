@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+  function getTime(min, hours, days, set, title){
+    //2021-05-05 21:09:28.10485+00
+    console.log(days);
+    console.log(set);
+    var d = new Date();
+    var m = d.getMinutes();
+    var h = d.getUTCHours();
+    var today = d.getUTCDate();
+    var tomonth = d.getUTCMonth() + 1;
+    console.log(today, tomonth);
+    console.log(h);
+    //alert("time was set at: " + set);
+    //alert("time gap is: " + hours + ':' + min);
+    //alert("current time is: " + h + ':' + m);
+    var setmonth = parseInt(set.substring(5,7));
+    var setday = parseInt(set.substring(8,10));
+    var sethour = set.substring(set.indexOf(' ') + 1, set.indexOf(':'));
+    var setmin = set.substring(set.indexOf(':') + 1, set.indexOf(':') + 3);
+    var calcmin = parseInt(setmin) + parseInt(min) - parseInt(m);
+    var calchour = parseInt(sethour) + parseInt(hours) - parseInt(h);
+    var calcday = setday + parseInt(days) - parseInt(today);
+    if(tomonth - setmonth == 1){ // passed over month
+      month_to_day = [31,28,31,30,31,30,31,31,30,31,30,31];
+      calcday = calcday + month_to_day[setmonth];
+    }
+    //alert(calcmin);
+    //alert(calchour);
+    
+    var getTextID = 'text + ' + set + ' + ' + title;
+    var getButtonID = 'button + ' + set + ' + ' + title;
+    var text = ''
+    //New addition to reminders: days
+    //If the data is too old (doesn't include a day) we say time has passed
+    if(calcmin + calchour * 60 + calcday * 24 * 60 < 0 || set.indexOf(' ') == -1){
+      text = 'Reminder has already passed.'
+    }
+    else {
+      if(calcmin < 0){
+        calcmin = calcmin + 60;
+        calchour = calchour - 1;
+      }
+      if(calchour < 0){
+        calchour = calchour + 24
+        calcday = calcday - 1;
+      }
+      text = calcmin + ' Minutes ' + calchour + ' Hours ' + calcday + ' Days Remaining'
+    }
+    document.getElementById(getTextID).innerHTML = text;
+    document.getElementById(getButtonID).style.display = 'none'
+
+  }
+</script>
+<html>
+    {% extends "login/header.html" %}
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Reminders{% endblock %}</title>
+    </head>
+      <body>
+          {% block content %}        
+          <div class="container">
+            <div class="row">
+              <div class="col-sm" style="margin: 60px;">
+                <h1>Reminders</h1>
+                {% if reminder_list %}
+                  <ul class="list-group list-group-flush" >
+                      {% for reminder in reminder_list %}
+                      {% ifequal reminder.user request.user %}
+                      <li class="list-group-item" >
+                    <h4>{{ reminder.title }}</h4><hr>
+                    <br>
+                    <strong>Description: {{ reminder.description }}</strong> <br>
+                    <button 
+                        id="button + {{reminder.time_now}} + {{reminder.title}}" 
+                        onclick='getTime("{{ reminder.time_minutes }}", "{{ reminder.time_hours}}", "{{ reminder.time_days}}", "{{reminder.time_now}}", "{{reminder.title}}")'
+                      >How much time is left?</button><br>
+                      <p id="text + {{reminder.time_now}} + {{reminder.title}}" style="display:inline"></p>
+                      <br>
+                    </li>
+                      {% endifequal %}
+                      {% endfor %}
+                    </ul>
+                  </ul>
+
+                    {% else %}
+                    <p>No reminders have been created.</p>
+                    {% endif %}
+              </div>
+            </div>
+          </div>
+            {% endblock %}
+        </body>
+</html>

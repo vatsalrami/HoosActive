@@ -1,0 +1,10 @@
+Django
+gunicorn
+django-allauth
+psycopg2
+psycopg2-binary
+django-environ
+datefinder
+google-api-python-client
+google-auth-oauthlib
+twilio

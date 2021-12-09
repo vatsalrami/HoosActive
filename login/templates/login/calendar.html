@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<script>
+  function updateForm(exercise){
+    var elements = document.getElementById(exercise).value.split("*");
+
+    // document.getElementById('titleText').value = elements[0];
+    document.getElementById('durationNum').value = elements[5];
+    document.getElementById('descText').value = "Category- " + elements[1] + "\nRate of perceived exertion- " + elements[2] + "\nEquipment- " + elements[3] + "\nRepetition- " + elements[4] + "\nDescription- " + elements[6] + "\nPoints- " + elements[7];
+    document.getElementById('descHidd').value = "Category- " + elements[1] + "\nRate of perceived exertion- " + elements[2] + "\nEquipment- " + elements[3] + "\nRepetition- " + elements[4] + "\nDescription- " + elements[6] + "\nPoints- " + elements[7];
+  }
+
+  function myFunction() {
+  /* TODO: remove this and fix api call */
+  var copyText =  document.getElementById('descText');
+
+  copyText.select();
+
+  document.execCommand("copy");
+}
+
+</script>
+
+<html>
+    {% extends "login/header.html" %}
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Calendar{% endblock %}</title>
+      </head>
+      <body>
+          {% block content %}
+          <div class="input-group">
+          <iframe src="https://calendar.google.com/calendar/embed?src={{user.email}}" style="border: 0; margin: auto;" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
+          <div class="card ">
+            <div class="card-body mx-auto" style="width: 50rem;">
+              <!-- <label><strong>Please authenticate first</strong></label>
+              <button type="button"  class="btn btn-info btn-block"><a style="color: white;" class="nav-link active" aria-current="page" href="authorize/">Authenticate</a></button>
+            TODO: allow authentication
+            -->
+              <div class="input-group" >
+                <select style="margin: auto;" onchange="updateForm('exercises')" name="exercises" id="exercises">
+                  <option disabled selected value> -- select an exercise --</option>
+                  {% for exercise in exercises_obj %}
+                  <option value="{{exercise.title}}*{{exercise.category}}*{{exercise.rpe}}*{{exercise.equipment}}*{{exercise.reps}}*{{exercise.time}}*{{exercise.description}}*{{exercise.points}}">{{ exercise.title }}</option>
+                 {% endfor %}
+                </select>
+              </div>  
+
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="input-group">
+                      <strong>Directions: </strong><p>
+                        Choose your desired exercise and "copy text." Then manually add exercise into calendar by pasting what you copied.
+                      </p>
+                      <small><strong>Don't forgot to set your time based on the duration of the exercise!</strong></small>
+                    </div>
+                      <form action=""> <!--method="POST"-->
+                        {% csrf_token %} 
+                        <!-- <div class="input-group">
+                          <label class="input-group-text">Title:</label>
+                          <input type="hidden" value="" name="titleText" id="titleText"/>
+                        </div>            -->
+                        <!-- <div class="form-group">
+                          <div class="input-group">
+                          <label class="input-group-text">Start time and date:</label>
+                          <input type="datetime-local" value="" name="datetimeText" id="datetimeText" disabled required />
+                        </div>
+                        </div> -->
+                          <div class="input-group mb-3">
+                              <label class="input-group-text">Duration (mins):</label>
+                              <input type="number" value="" name="durationNum" id="durationNum" readonly required/>
+                            </div>
+          
+                            <div class="input-group mb-3">
+                              <span class="input-group-text" id="basic-addon1">Description:</span>
+                              <textarea value="" name="descText" id="descText" required readonly></textarea>
+                            </div>
+          
+                            <!-- <div class="input-group mb-3">
+                              <span class="input-group-text" id="basic-addon1">Place:</span>
+                              <input type="text" value="" name="placeText" id="placeText" disabled required/>
+                            </div> -->
+          
+                            <div class="d-grid" style="margin-top: 15px;">
+                              <button onclick="myFunction()" type="button" class="btn btn-outline-info">Copy text</button> <!--type changed to button to prevent reload-->
+                            </div>
+                            <div class="d-grid" style="margin-top: 15px;">
+                              <button type="button" class="btn btn-info btn-block" name="copy"> <a style="color: white;" class="nav-link active" aria-current="page" target="_blank" href="https://calendar.google.com/calendar/u/0/r">Add exercise</a></button>
+                            </div>
+                        <!-- <div class="d-grid" style="margin-top: 15px;">
+                          <button type="submit"   value="submit" class="btn btn-info btn-block" disabled type="button" name="submit">Submit</button>
+                        </div> TODO: fix submit on heroku    -->
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="input-group">
+                        <strong>Directions: </strong><p>
+                          Choose your desired exercise and send it to your phone to access it on the go!
+                        </p>
+                      </div>
+                      <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                          <textarea value="" name="descHidd" id="descHidd"></textarea>
+                        </div>
+                        <label for="phone"><strong>Enter your phone number:</strong></label>
+                        <input type="tel" id="phone" name="phone" value=""
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                        <small>Format: 123-456-7890</small>
+                        <div class="d-grid" style="margin-top: 15px;">
+                          <button type="submit" class="btn btn-outline-info" name="message">Send exercise!</button>
+                        </div>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+    </div>
+          {% endblock %}
+        </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+    {% extends "login/header.html" %}
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}All Exercises{% endblock %}</title>
+      </head>
+      <body>
+          {% block content %}        
+          <div class="container">
+            <div class="row">
+              <div class="col-sm" style="margin: 60px;">
+                <h1>All Exercises</h1>
+                {% if exercise_list %}
+                  <ul class="list-group list-group-flush" >
+                      {% for exercise in exercise_list %}
+                      <li class="list-group-item" >
+                    <h4>{{ exercise.title }}</h4><hr>
+                    <strong>User: </strong> <br>{{ exercise.user }}
+                    <br>
+                    <strong>Points: </strong> <br>{{ exercise.points }}
+                    <br>
+                    <strong>Category: </strong> <br> {{ exercise.category }}
+                    <br>
+                    <strong>Rate of perceived exertion: </strong> <br>{{ exercise.rpe }}
+                    <br>
+                    <strong>Equipment: </strong> <br> {{ exercise.equipment }}
+                    <br>
+                    <strong>Repetitions: </strong> <br>{{ exercise.reps }}
+                    <br>
+                    <strong>Total time: </strong> <br>{{ exercise.time }} <strong> mins</strong>
+                    <br>
+                    <strong>Description: </strong> <br>{{ exercise.description }}
+                    </li>
+                      {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>No exercises have been created.</p>
+                    {% endif %}
+              </div>
+            </div>
+          </div>
+            {% endblock %}
+        </body>
+</html>

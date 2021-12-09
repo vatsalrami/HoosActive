@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    {% extends "login/header.html" %}
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Submit an Exercise{% endblock %}</title>
+      </head>
+      <body >
+          {% block content %}
+          <div class="card ">
+            <div class="card-body mx-auto" style="width: 50rem;">
+          <form action="" method="POST">
+              {% csrf_token %}           
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Title:</span>
+                {{form.title}}
+              </div>
+
+              <div class="input-group">
+                <label class="input-group-text">Category</label>
+                {{form.category}}
+              </div>
+              
+              <div class="input-group">
+                  <label class="input-group-text">Rate of perceived exertion:</label>
+                  {{form.rpe}}
+                </div>
+
+                <div class="input-group">
+                    <label class="input-group-text">Equipment:</label>
+                    {{form.equipment}}
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Repititions:</span>
+                    {{form.reps}}
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Total time (minutes):</span>
+                    {{form.time}}
+                  </div>
+
+                  <div class="input-group">
+                    <span class="input-group-text">Description:</span>
+                    {{form.description}}
+                  </div>
+
+              <div class="d-grid" style="margin-top: 15px;">
+                <button type="submit" value="submit" class="btn btn-info btn-block" type="button" name="submit">Submit</button>
+              </div>
+            </form>
+        </div>
+    </div>
+            {% endblock %}
+        </body>
+</html>
